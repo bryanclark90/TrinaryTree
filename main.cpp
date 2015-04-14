@@ -30,7 +30,7 @@ int main(void)
 		cin >> number;
 		switch(number){
 			//add a number
-			case = '1':
+			case 1:
 				number = -1;
 				while (number < 0 || number > 999) {
 					cout << "Enter an integer in the range [0,999]: ";
@@ -46,7 +46,7 @@ int main(void)
 				}
 				break;
 			//remove the number
-			case = '2':
+			case 2:
 				number = -1;
 				cout << "Enter a number to remove from the tree: ";
 				cin >> number;
@@ -60,11 +60,11 @@ int main(void)
 				}
 				break;
 			//display contents
-			case = '3':
+			case 3:
 				tree.DisplayContents(cout);
 				break;
 			//add sample numbers to tree
-			case = '4':
+			case 4:
 				tree.Add(5);
 				tree.Add(4);
 				tree.Add(9);
@@ -75,10 +75,10 @@ int main(void)
 				cout << "List added successfully to tree!" << endl;
 				break;
 			//quit
-			case = '5':
+			case 5:
 				break;
 			//display my personal info
-			case = '6':
+			case 6:
 				cout << endl;
 				cout << "=================================================" << endl;
 				cout << "============== My Contact Info ==================" << endl;
@@ -89,7 +89,7 @@ int main(void)
 				cout << "=================================================" << endl;
 				cout << endl;
 				break;
-			case else:
+			default:
 				cout << "Invalid option!" << endl << endl;
 				break;
 		}
