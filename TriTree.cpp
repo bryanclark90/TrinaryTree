@@ -310,8 +310,7 @@ void TriTree::DisplayContents(ostream& outputStream)
 	outputStream << "trinary tree: ";
 	//start at root
 	DisplayContents(m_root, outputStream);
-	if(m_root == NULL)
-	{
+	if(m_root == NULL){
 		outputStream << "The tree is empty!" << endl;
 	}
 	outputStream << endl;
@@ -319,14 +318,13 @@ void TriTree::DisplayContents(ostream& outputStream)
 //helper function to recursively build tree
 void TriTree::DisplayContents(Node* node, ostream& outputStream)
 {
-	if (node)
-	{
+	if (node){
 		DisplayContents(node->Left, outputStream);
 		
 		// Display the numerical value for this node
-		char numBuf[64];
-		itoa(node->Data, numBuf, 10);
-		outputStream << numBuf << " ";
+		std::ostringstream out;
+		out << node->Data << " ";
+		std::cout << out.str();
 
 		DisplayContents(node->Middle, outputStream);
 		// Display the entire right subtree

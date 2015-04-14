@@ -28,83 +28,70 @@ int main(void)
 
 		int number = -1;
 		cin >> number;
-		//add a number to the tree
-		if (1 == number)
-		{
-			number = -1;
-			while (number < 0 || number > 999)
-			{
-				cout << "Enter an integer in the range [0,999]: ";
+		switch(number){
+			//add a number
+			case = '1':
+				number = -1;
+				while (number < 0 || number > 999) {
+					cout << "Enter an integer in the range [0,999]: ";
+					cin >> number;
+					cout << endl;
+				}
+				//add number to tree
+				if (tree.Add(number)) {
+					cout << "Added " << number << endl;
+				}
+				else{
+					cout << "Failed to add " << number << endl;
+				}
+				break;
+			//remove the number
+			case = '2':
+				number = -1;
+				cout << "Enter a number to remove from the tree: ";
 				cin >> number;
 				cout << endl;
-			}
-			//add number to tree
-			if (tree.Add(number))
-			{
-				//if correctly added
-				cout << "Added " << number << endl;
-			}
-			else
-			{
-				//if not added
-				cout << "Failed to add " << number << endl;
-			}
-		}
-		//remove the number
-		else if (2 == number)
-		{
-			number = -1;
-			cout << "Enter a number to remove from the tree: ";
-			cin >> number;
-			cout << endl;
-			//remove the number from tree
-			if (tree.Remove(number))
-			{
-				cout << number << " was removed" << endl;
-			}
-			else
-			{
-				//value removed from tree
-				cout << "Value was NOT removed because it was not found in the tree" << endl;
-			}
-		}
-		//display contents
-		else if (3 == number)
-		{
-			tree.DisplayContents(cout);
-		}
-		//add sample numbers to tree
-		else if (4 == number)
-		{
-			tree.Add(5);
-			tree.Add(4);
-			tree.Add(9);
-			tree.Add(5);
-			tree.Add(7);
-			tree.Add(2);
-			tree.Add(2);
-			cout << "List added successfully to tree!" << endl;
-		}
-		//quit
-		else if (5 == number)
-		{
-			break;
-		}
-		else if( 6 == number)
-		{
-			cout << endl;
-			cout << "=================================================" << endl;
-			cout << "============== My Contact Info ==================" << endl;
-			cout << "Programmer:			Bryan Kieth Clark" << endl;
-			cout << "Email:			bryan.clark@email.wsu.edu" << endl;
-			cout << "Phone:			            (509)294-4161" << endl;
-			cout << "=================================================" << endl;
-			cout << "=================================================" << endl;
-			cout << endl;
-		}
-		else
-		{
-			cout << "Invalid option!" << endl << endl;
+				//remove the number from tree
+				if (tree.Remove(number)) {
+					cout << number << " was removed" << endl;
+				}
+				else {
+					cout << "Value was NOT removed because it was not found in the tree" << endl;
+				}
+				break;
+			//display contents
+			case = '3':
+				tree.DisplayContents(cout);
+				break;
+			//add sample numbers to tree
+			case = '4':
+				tree.Add(5);
+				tree.Add(4);
+				tree.Add(9);
+				tree.Add(5);
+				tree.Add(7);
+				tree.Add(2);
+				tree.Add(2);
+				cout << "List added successfully to tree!" << endl;
+				break;
+			//quit
+			case = '5':
+				break;
+			//display my personal info
+			case = '6':
+				cout << endl;
+				cout << "=================================================" << endl;
+				cout << "============== My Contact Info ==================" << endl;
+				cout << "Programmer:			Bryan Kieth Clark" << endl;
+				cout << "Email:			bryan.clark@email.wsu.edu" << endl;
+				cout << "Phone:			            (509)294-4161" << endl;
+				cout << "=================================================" << endl;
+				cout << "=================================================" << endl;
+				cout << endl;
+				break;
+			case else:
+				cout << "Invalid option!" << endl << endl;
+				break;
 		}
 	}
 	return 0;
