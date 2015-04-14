@@ -179,7 +179,6 @@ bool TriTree::Remove(int dataValue)
 {
 	Node* parent = m_root;
 	Node* current = m_root;
-	Node* removalNode = NULL;
 	bool removed;
 	if(IsEmpty()) {
 		//throw flag
