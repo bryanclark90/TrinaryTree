@@ -5,7 +5,7 @@
 #include <iostream>
 #include <queue>
 #include <stdio.h>
-#include <tchar.h>
+#include <sstream>
 
 
 //create a Trinary Tree class

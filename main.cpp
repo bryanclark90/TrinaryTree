@@ -2,8 +2,6 @@
 //Email: bryan.clark@email.wsu.edu
 //Phone: (509)294-4161
 
-#include <iostream>
-#include <stdio.h>
 #include "TriTree.h"
 
 
