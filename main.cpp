@@ -20,7 +20,8 @@ int main(void)
 		cout << "  2 = Remove a number from the trinary tree" << endl;
 		cout << "  3 = Display the trinary tree as a list" << endl;
 		cout << "      built using in-order traversal" << endl;
-		cout << "  4 = Add sample numbers: 5, 4, 9, 5, 7, 2, 2" << endl; 
+		cout << "  4 = Add sample numbers to tree:" << endl;
+		cout << "                      add 5, 4, 9, 5, 7, 2, 2" << endl; 
 		cout << "  5 = Quit" << endl;
 		cout << "  6 = Programmer info" << endl;
 		cout << "-------------------------------------------------" << endl;

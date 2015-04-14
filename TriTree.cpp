@@ -269,12 +269,10 @@ bool TriTree::removeNode(Node* current, Node* parent,  int dataValue)
 		}
 		//if the parent[grandparent] of the CURRENT NODE[parent] points from the left
 		//then set left to null
-		if(parent->Left->Data == current->Data) {
+		if(parent->Left == current) {
 			parent->Left = NULL;
 		}
-		//if the parent[grandparent] of the CURRENT NODE[parent] points from the left
-		//then set left to null
-		else if(parent->Right->Data == current->Data) {
+		else {
 			parent->Right = NULL;
 		}
 		delete(current);
@@ -301,8 +299,8 @@ bool TriTree::removeNode(Node* current, Node* parent,  int dataValue)
 			//move subtree data up, truncate it out
 			current->Data = subtree->Data;
 			previous->Right = subtree->Left;
-			return true;
 		}
+		return true;
 	}
 	// if right exists but left doesn't just move everything up
 	else if(current->Right != NULL) {
@@ -312,7 +310,9 @@ bool TriTree::removeNode(Node* current, Node* parent,  int dataValue)
 		previous->Left = current->Left;
 		previous->Right = current->Right;
 		delete(current);
+		return true;
 	}
+	return false;
 }
 
 //print displays out 
