@@ -6,28 +6,41 @@
 using namespace std;
 
 //Constructor
-TriTree::TriTree(void)
-{
+TriTree::TriTree(void){
 	m_root = NULL;
 }
+
 //Deconstructor
 TriTree::~TriTree(void)
 {
 	DeleteTree(m_root);
 	m_root = NULL;
 }
-//Node Initialization
+
+/*
+ * @function  Node(Int dataValue)
+ *
+ * @param     int dataValue
+ *
+ * @returns   a new node with no children
+ */
 TriTree::Node::Node(int dataValue)
 {
 	Data = dataValue;
 	Left = Middle = Right = NULL;
 }
-//Delete Tree shall remove all branches of the tree recursively
+
+/*
+ * @function  DeleteTree(Node* root)
+ *
+ * @param     Node* root
+ *
+ * @returns   nothing, but removes the entire tree
+ */
 void TriTree::DeleteTree(Node* root)
 {
 	//if exists
-	if(root)
-	{
+	if(root) {
 		//remove left subtree
 		DeleteTree(root->Left);
 		//remove middle subtree
@@ -38,15 +51,33 @@ void TriTree::DeleteTree(Node* root)
 		delete root;
 	}
 }
-//checks if tree is empty
+
+/*
+ * @function   IsEmpty(void)
+ *
+ * @param      none
+ *
+ * @returns    true if tree is empty
+ *             false otherwise
+ */
 bool TriTree::IsEmpty(void)
 {
 	return(NULL == m_root);
 }
-//adds a node to the Trinary Tree
-//values smaller than current node go left
-//values equal go middle
-//values greater than go right
+
+/*
+ * @function   Add(int dataValue)
+ *
+ * @param      int dataValue
+ *
+ * @returns    true if tree is empty
+ *             false otherwise
+ *
+ *             adds a node to the Trinary tree,
+ *             smaller values go left, equal 
+ *             values middle, greater values go 
+ *             right              
+ */
 bool TriTree::Add(int dataValue)
 {
 	//initialize success state to false
@@ -62,247 +93,228 @@ bool TriTree::Add(int dataValue)
 	Node* tempRoot = m_root;
 
 	//if root is empty
-	if(tempRoot == NULL)
-	{
+	if(tempRoot == NULL) {
 		//set root to newNode
 		m_root = newNode;
 		//return successful addition
 		return true;
 	}
-	//if root is not empty
-	else
-	{
+	else{
 		successState = insertNode(tempRoot, newNode);
 		return successState;
 	}
 }
-//helper function that traverses the tree
-//finds free location to insert beyond root
+
+/*
+ * @function   insertNode(Node* tempRoot, Node* newNode)
+ *
+ * @param      Node* tempRoot    pointer to the parent node we
+ *								 are adding to
+ *
+ * @param      Node* newNode     the node to be added to the tree
+ *
+ * @returns    true if successful addition; false otherwise
+ *
+ *             helper function that traverses the tree, find a free
+ *             location to insert beyond root              
+ */
 bool TriTree::insertNode(Node* tempRoot, Node* newNode)
 {
 	bool result = false;
 	//check if value of current node and new node are identical
-	if(newNode->Data == tempRoot->Data)
-	{
+	if(newNode->Data == tempRoot->Data) {
 		//if middle attriubute is NULL add newNode
-		if(tempRoot->Middle == NULL)
-		{
+		if(tempRoot->Middle == NULL) {
 			tempRoot->Middle = newNode;
 			return true;
 		}
-		//find next available free location 
-		else
-		{
+		//go to next level 
+		else {
 			result = insertNode(tempRoot->Middle, newNode);
 			return result;
 		}
 	}
 	//if the value of new node < current node
-	else if(newNode->Data < tempRoot->Data)
-	{
+	else if(newNode->Data < tempRoot->Data) {
 		//if left attriubute is NULL add newNode
-		if(tempRoot->Left == NULL)
-		{
+		if(tempRoot->Left == NULL){
 			tempRoot->Left = newNode;
 			return true;
 		}
-		//find next available free location 
-		else
-		{
+		//go to next level 
+		else {
 			result = insertNode(tempRoot->Left, newNode);
 			return result;
 		}
 	}
 	//if the value of new node > current node
-	else if(newNode->Data > tempRoot->Data)
-	{
+	else if(newNode->Data > tempRoot->Data) {
 		//if right attriubute is NULL add newNode
-		if(tempRoot->Right == NULL)
-		{
+		if(tempRoot->Right == NULL) {
 			tempRoot->Right = newNode;
 			return true;
 		}
-		//find next available free location 
-		else
-		{
+		//go to next level 
+		else {
 			result = insertNode(tempRoot->Right, newNode);
 			return result;
 		}
 	}
 	//else return false
-	else
-	{
+	else {
 	 return result;
 	}
 }
-//returns true if the value was found and removed, false if it was not removed or found
+
+/*
+ * @function   Remove(int dataValue)
+ *
+ * @param      int dataValue     Value to be removed
+ *
+ * @returns    true if successful removal; false otherwise
+ *
+ *             function that finds the node to be found and removed              
+ */
 bool TriTree::Remove(int dataValue)
 {
 	Node* parent = m_root;
-	Node* current = NULL;
+	Node* current = m_root;
 	Node* removalNode = NULL;
 	bool removed;
-	if(IsEmpty() == true)
-	{
+	if(IsEmpty()) {
 		//throw flag
-		printf("Tree is empty, can not remove %d from a tree that doesn't exist.\n", dataValue);
+		cout << "Tree is empty, can not remove" << dataValue <<  " from a tree that doesn't exist" << endl;
 		return false;
 	}
-	else
-	{
-		//if data is at root
-		if(m_root->Data == dataValue)
-		{
-			//in removeNode function current[here] = parent[there], and parent[here] = grandparent[there].
-			//confusing i know but based on two trains of though.
-			current = parent;
-			removed = removeNode(current, parent, dataValue);
-			return removed;
-		}
-		else
-		{
-			//check if data to be removed AND is not at root is less than or greater than root data
-			if(dataValue < parent->Data)
-			{
-				//set the next check point to the left
-				current = parent->Left;
+	else {
+		//recursively go through to locate it
+		bool keepGoing = true;
+		while(keepGoing) {
+			//if you located the node
+			if(current->Data == dataValue) {
+				//we found the location we wanted
+				keepGoing = false;
+				break;
 			}
-			else if(dataValue > parent->Data)
-			{
-				//set the next check point to the right
-				current = parent->Right;
-			}
-			//recursively go through to locate it
-			bool keepGoing = true;
-			while(keepGoing)
-			{
-				//if equal(meaning data is at the node)
-				if(current->Data == dataValue)
-				{
-					//we found the location we wanted
-					keepGoing = false;
-				}
-				//if not equal check if less than current data
-				else if(dataValue < current->Data)
-				{
-					//update parent to current position
-					parent = current;
-					//update current to LEFT value
+			//if not equal check if less than current data
+			else if(dataValue < current->Data) {
+				//update parent to current position
+				//will be redundant on first pass
+				parent = current;
+				//update current to LEFT value
+				if(current->Left != NULL) {
 					current = current->Left;
-					//don't break while loop, we haven't found the correct node
-					keepGoing = true;
 				}
-				//if not equal check if greater than current data
-				else if(dataValue > current->Data)
-				{
-					//update parent to current position
-					parent = current;
-					//update current to RIGHT value
-					current = current->Right;
-					//don't break while loop, we haven't found the correct node
-					keepGoing = true;
+				else{
+					cout << dataValue << " is not in tree!" << endl;
+					return false;
 				}
 			}
-			//now we can remove it
-			//in removeNode function current[here] = parent[there], and parent[here] = grandparent[there].
-			//confusing i know but based on two trains of though.
-			removed = removeNode(current, parent, dataValue);
-			return removed;
+			//if not equal check if greater than current data
+			else if(dataValue > current->Data) {
+				//update parent to current position
+				//will be redundant on first pass
+				parent = current;
+				//update current to RIGHT value
+				if(current->Right != NULL) {
+					current = current->Right;
+				}
+				else {
+					cout << dataValue << "is not in tree!" << endl;
+					return false;
+				}
+			}
 		}
+		//now we can remove it
+		removed = removeNode(current, parent, dataValue);
+		return removed;
 	}
 
 }
-//helper function that rearranges the tree
-bool TriTree::removeNode(Node* parent, Node* grandparent,  int dataValue)
-{
-	Node* previous;
-	Node* current;
-		//if current is middle
-		if(parent->Middle != NULL)
-		{
-			current = previous = parent;
-			while(current->Middle)
-			{
-				previous = current;
-				current = current->Middle;
-			}
-			previous->Middle = NULL;
-		//	DeleteTree(current);
-			return true;
-		}
-		// if both node left and right are empty you empty the node
-		else if((parent->Left == NULL)&&(parent->Right == NULL)) 
-		{
-			//throw flag if only one item in tree
-			if(parent == m_root)
-			{
-				m_root = NULL;
-				return true;
-			}
-			//if the parent[grandparent] of the CURRENT NODE[parent] points from the left
-			//then set left to null
-			if(grandparent->Left->Data == parent->Data)
-			{
-				grandparent->Left = NULL;
-			}
-			//if the parent[grandparent] of the CURRENT NODE[parent] points from the left
-			//then set left to null
-			else if(grandparent->Right->Data == parent->Data)
-			{
-				grandparent->Right = NULL;
-			}
-			parent->Data = NULL;
-			return true;
-		}
-		// if left is not null
-		else if((parent->Left != NULL)) 
-		{
-			
-			current = previous = parent->Left; // temp and temp prev = root temp
-			// find largest value on the left side and make new root
-			//if doesn't exist
-			if(current->Right == NULL)
-			{
-				parent->Data = current->Data;
-				parent->Left = current->Left;
-				parent->Middle = current->Middle;
-			//	DeleteTree(current);
-				return true;
-			}
-			else
-			{
-				//if does
-				while( current->Right != NULL) 
-				{
-					previous = current;
-					current = current->Right;
-				}
-				// second largest value on left side is now largest
-				parent->Data = current->Data;
-				// where that value was is now null
-				previous->Right = NULL;
-				// delete node that value was found in
-				//DeleteTree(current); 
-				return true;
-			}
 
+/*
+ * @function  removeNode(Node* tempRoot, Node* newNode)
+ *
+ * @param      Node* tempRoot    pointer to the parent node we
+ *								 are adding to
+ *
+ * @param      Node* newNode     the node to be added to the tree
+ *
+ * @returns    true if successful addition; false otherwise
+ *
+ *             helper function that traverses the tree, find a free
+ *             location to insert beyond root              
+ */
+//helper function that rearranges the tree
+bool TriTree::removeNode(Node* current, Node* parent,  int dataValue)
+{
+	Node* previous = parent;
+	//if current is the middle node of the tree
+	//find the "last one" and remove it
+	if(current->Middle != NULL) {
+		while(current->Middle) 	{
+			previous = current;
+			current = current->Middle;
 		}
-		// if right and not left
-		else if((parent->Left == NULL)&&(parent->Right != NULL)) 
-		{
-			
-			current = parent->Right;
-			// replace with right value, delete the old one.
-			parent->Data = current->Data; 
-			parent->Left = current->Left;
-			parent->Middle = current->Middle;
-			parent->Right = current->Right;
-			//DeleteTree(current);
+		previous->Middle = NULL;
+		delete(current);
+		return true;
+	}
+	// if both node left and right are empty you empty the node	
+	else if((current->Left == NULL)&&(current->Right == NULL)) {
+		//if root
+		if(current == m_root) {
+			m_root = NULL;
 			return true;
 		}
-		//check if more middle values
-		//if not remove current node
+		//if the parent[grandparent] of the CURRENT NODE[parent] points from the left
+		//then set left to null
+		if(parent->Left->Data == current->Data) {
+			parent->Left = NULL;
+		}
+		//if the parent[grandparent] of the CURRENT NODE[parent] points from the left
+		//then set left to null
+		else if(parent->Right->Data == current->Data) {
+			parent->Right = NULL;
+		}
+		delete(current);
+		return true;
+	}
+	//current is node to remove
+	// if left child of node for removal node is not null
+	else if(current->Left != NULL) {
+		
+		Node* subtree = previous = current->Left;
+		//if subtree has no right branch, just
+		//move everything up and connect right branch
+		if(subtree->Right == NULL) {
+			current->Data = subtree->Data;
+			current->Left = subtree->Left;
+			current->Middle = subtree->Middle;
+		}
+		else {
+			//find the largest of the left subtree
+			while(subtree->Right != NULL) {
+				previous = subtree;
+				subtree = subtree->Right;
+			}
+			//move subtree data up, truncate it out
+			current->Data = subtree->Data;
+			previous->Right = subtree->Left;
+			return true;
+		}
+	}
+	// if right exists but left doesn't just move everything up
+	else if(current->Right != NULL) {
+		previous = current; 
+		current = current->Right;
+		previous->Data = current->Data;
+		previous->Left = current->Left;
+		previous->Right = current->Right;
+		delete(current);
+	}
 }
+
 //print displays out 
 void TriTree::DisplayContents(ostream& outputStream)
 {
@@ -315,6 +327,7 @@ void TriTree::DisplayContents(ostream& outputStream)
 	}
 	outputStream << endl;
 }
+
 //helper function to recursively build tree
 void TriTree::DisplayContents(Node* node, ostream& outputStream)
 {
