@@ -5,7 +5,8 @@
 #include <iostream>
 #include <queue>
 #include <stdio.h>
-#include <tchar.h>
+#include <sstream>
+#include <stdlib.h>
 
 
 //create a Trinary Tree class
@@ -26,25 +27,25 @@ private:
 	//if NULL the tree is empty
 	Node* m_root;
 
-	void DeleteTree(Node* n);
-	void DisplayContents(Node* node, std::ostream& outputStream);
+	void deleteTree(Node* n);
+	void displayContents(Node* node, std::ostream& outputStream);
 	// Adds in a new node
 	bool insertNode(Node* TempRoot, Node* NewNode );
+	//returns true if the node is successfully removed
+	bool removeNode(Node* parent, Node* grandparent);
 public:
 	//constructor and deconstructor
-	TriTree(void);
+	 TriTree(void);
 	~TriTree(void);
 
 
 	//returns true if successfully added
-	bool Add(int dataValue);
+	bool add(int dataValue);
 	//returns true if  the value was found and removed, else false
-	bool Remove(int dataValue);
-	//returns true if the node is successfully removed
-	bool removeNode(Node* parent, Node* grandparent, int dataValue);
+	bool remove(int dataValue);
 	//checks if tree is empty. True if empty
-	bool IsEmpty(void);
+	bool isEmpty(void);
 
-	void DisplayContents(std::ostream& outputStream);
+	void displayContents(std::ostream& outputStream);
 
 };
