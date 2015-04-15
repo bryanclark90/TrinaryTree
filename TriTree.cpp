@@ -307,7 +307,14 @@ bool TriTree::removeNode(Node* current, Node* parent)
 	return false;
 }
 
-//print displays out 
+/*
+ * @function   displayContents(ostream& outputStream)
+ *
+ * @param      iostream& outputStream  the output stream to conolse
+ *
+ * @returns    displays the contents of the nodes recurively
+ *      
+ */
 void TriTree::displayContents(ostream& outputStream)
 {
 	//print out contents
@@ -320,7 +327,15 @@ void TriTree::displayContents(ostream& outputStream)
 	outputStream << endl;
 }
 
-//helper function to recursively build tree
+/*
+ * @function   displayContents(Node* node, ostream& outputStream)
+ *
+ * @param      Node* Node              the Node sturcture
+ * @param      iostream& outputStream  the output stream to conolse
+ *
+ * @returns    displays the contents of the nodes recurively
+ *      
+ */
 void TriTree::displayContents(Node* node, ostream& outputStream)
 {
 	if (node){
