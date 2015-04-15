@@ -7,6 +7,19 @@
 
 using namespace std;
 
+int myatoi(char* str)
+{
+	int output = 0;
+	int i=0;
+	while( 48 <= str[i] && str[i] <=57 ){
+		
+		output = output*10 + (str[i] - 48) ;
+		i++;
+	}
+	
+	return output;
+}
+
 int main(void)
 {
 	TriTree tree;
@@ -27,19 +40,20 @@ int main(void)
 		cout << "-------------------------------------------------" << endl;
 		cout << "-------------------------------------------------" << endl;
 
-		int number = -1;
-		cin >> number;
-		switch(number){
+		char input[10];
+		cin >> input;
+		int number = myatoi(input);
+		switch(number) {
 			//add a number
 			case 1:
-				number = -1;
+				//number = -1;
 				while (number < 0 || number > 999) {
 					cout << "Enter an integer in the range [0,999]: ";
 					cin >> number;
 					cout << endl;
 				}
 				//add number to tree
-				if (tree.Add(number)) {
+				if (tree.add(number)) {
 					cout << "Added " << number << endl;
 				}
 				else{
@@ -48,12 +62,12 @@ int main(void)
 				break;
 			//remove the number
 			case 2:
-				number = -1;
+				//number = -1;
 				cout << "Enter a number to remove from the tree: ";
 				cin >> number;
 				cout << endl;
 				//remove the number from tree
-				if (tree.Remove(number)) {
+				if (tree.remove(number)) {
 					cout << number << " was removed" << endl;
 				}
 				else {
@@ -62,17 +76,17 @@ int main(void)
 				break;
 			//display contents
 			case 3:
-				tree.DisplayContents(cout);
+				tree.displayContents(cout);
 				break;
 			//add sample numbers to tree
 			case 4:
-				tree.Add(5);
-				tree.Add(4);
-				tree.Add(9);
-				tree.Add(5);
-				tree.Add(7);
-				tree.Add(2);
-				tree.Add(2);
+				tree.add(5);
+				tree.add(4);
+				tree.add(9);
+				tree.add(5);
+				tree.add(7);
+				tree.add(2);
+				tree.add(2);
 				cout << "List added successfully to tree!" << endl;
 				break;
 			//quit

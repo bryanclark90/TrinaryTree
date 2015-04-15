@@ -13,7 +13,7 @@ TriTree::TriTree(void){
 //Deconstructor
 TriTree::~TriTree(void)
 {
-	DeleteTree(m_root);
+	deleteTree(m_root);
 	m_root = NULL;
 }
 
@@ -37,16 +37,16 @@ TriTree::Node::Node(int dataValue)
  *
  * @returns   nothing, but removes the entire tree
  */
-void TriTree::DeleteTree(Node* root)
+void TriTree::deleteTree(Node* root)
 {
 	//if exists
 	if(root) {
 		//remove left subtree
-		DeleteTree(root->Left);
+		deleteTree(root->Left);
 		//remove middle subtree
-		DeleteTree(root->Middle);
+		deleteTree(root->Middle);
 		//remove right subtree
-		DeleteTree(root->Right);
+		deleteTree(root->Right);
 		//remove the root
 		delete root;
 	}
@@ -60,7 +60,7 @@ void TriTree::DeleteTree(Node* root)
  * @returns    true if tree is empty
  *             false otherwise
  */
-bool TriTree::IsEmpty(void)
+bool TriTree::isEmpty(void)
 {
 	return(NULL == m_root);
 }
@@ -78,7 +78,7 @@ bool TriTree::IsEmpty(void)
  *             values middle, greater values go 
  *             right              
  */
-bool TriTree::Add(int dataValue)
+bool TriTree::add(int dataValue)
 {
 	//initialize success state to false
 	bool successState = false;
@@ -175,28 +175,21 @@ bool TriTree::insertNode(Node* tempRoot, Node* newNode)
  *
  *             function that finds the node to be found and removed              
  */
-bool TriTree::Remove(int dataValue)
+bool TriTree::remove(int dataValue)
 {
 	Node* parent = m_root;
 	Node* current = m_root;
 	bool removed;
-	if(IsEmpty()) {
+	if(isEmpty()) {
 		//throw flag
 		cout << "Tree is empty, can not remove" << dataValue <<  " from a tree that doesn't exist" << endl;
 		return false;
 	}
 	else {
 		//recursively go through to locate it
-		bool keepGoing = true;
-		while(keepGoing) {
-			//if you located the node
-			if(current->Data == dataValue) {
-				//we found the location we wanted
-				keepGoing = false;
-				break;
-			}
+		while(current->Data != dataValue) {
 			//if not equal check if less than current data
-			else if(dataValue < current->Data) {
+			if(dataValue < current->Data) {
 				//update parent to current position
 				//will be redundant on first pass
 				parent = current;
@@ -219,13 +212,13 @@ bool TriTree::Remove(int dataValue)
 					current = current->Right;
 				}
 				else {
-					cout << dataValue << "is not in tree!" << endl;
+					cout << dataValue << " is not in tree!" << endl;
 					return false;
 				}
 			}
 		}
 		//now we can remove it
-		removed = removeNode(current, parent, dataValue);
+		removed = removeNode(current, parent);
 		return removed;
 	}
 
@@ -245,7 +238,7 @@ bool TriTree::Remove(int dataValue)
  *             location to insert beyond root              
  */
 //helper function that rearranges the tree
-bool TriTree::removeNode(Node* current, Node* parent,  int dataValue)
+bool TriTree::removeNode(Node* current, Node* parent)
 {
 	Node* previous = parent;
 	//if current is the middle node of the tree
@@ -315,12 +308,12 @@ bool TriTree::removeNode(Node* current, Node* parent,  int dataValue)
 }
 
 //print displays out 
-void TriTree::DisplayContents(ostream& outputStream)
+void TriTree::displayContents(ostream& outputStream)
 {
 	//print out contents
 	outputStream << "trinary tree: ";
 	//start at root
-	DisplayContents(m_root, outputStream);
+	displayContents(m_root, outputStream);
 	if(m_root == NULL){
 		outputStream << "The tree is empty!" << endl;
 	}
@@ -328,19 +321,19 @@ void TriTree::DisplayContents(ostream& outputStream)
 }
 
 //helper function to recursively build tree
-void TriTree::DisplayContents(Node* node, ostream& outputStream)
+void TriTree::displayContents(Node* node, ostream& outputStream)
 {
 	if (node){
-		DisplayContents(node->Left, outputStream);
+		displayContents(node->Left, outputStream);
 		
 		// Display the numerical value for this node
 		std::ostringstream out;
 		out << node->Data << " ";
 		std::cout << out.str();
 
-		DisplayContents(node->Middle, outputStream);
+		displayContents(node->Middle, outputStream);
 		// Display the entire right subtree
-		DisplayContents(node->Right, outputStream);
+		displayContents(node->Right, outputStream);
 	}
 	
 }
